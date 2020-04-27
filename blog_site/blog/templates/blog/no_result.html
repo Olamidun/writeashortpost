@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+    <form method="GET" action="">
+        <fieldset>
+            <label for="inputSearch" class="sr-only">Search</label>
+            <input type="text" id="inputSearch" class="form-control mb-2" placeholder="Search posts" name="q" value="{{ request.GET.q }}">
+            <button type="submit" class="btn btn-outline-primary" style="margin-bottom: 10px;">Search</button>
+        </fieldset>
+    </form>
+    <div class="blog-post-meta mt-2">
+        <h4> No result to display, try input another search parameter!</h4>
+    </div>
+{% endblock %}

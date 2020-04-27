@@ -1,0 +1,42 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="blog-post">
+        <img class="rounded-circle article-img" style="width: 5%;" src="{{ posts.author.profile.image.url}}">
+        <h2 class="blog-post-title">{{posts.title}}</h2>
+        <p>{{posts.content}}</p>
+        {% if posts.post_image %}
+            <img class="card-img-right flex-auto d-none d-md-block" src="{{ posts.post_image.url }}" style="width: 35%; " alt="{{posts.title}}">
+        {% else %}
+            <p></p>
+        {% endif %}
+        <p class="blog-post-meta" style="color: #5a6268;"> posted on {{ posts.date_posted |date:"d M Y, g:i"}} by {{ posts.author}}</p>
+        <div class="form-group">
+            {% if posts.author == user or user.is_superuser %}
+                <a class="btn btn-outline-info btn-sm" style="margin-top: -15px;" href="{% url 'post-update' posts.pk %}">Update</a>
+                <a class="btn btn-outline-danger btn-sm" style="margin-top: -15px;" href="{% url 'post-delete' posts.pk %}">Delete</a>
+            {% endif%}
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend>Contribute to this post!</legend>
+                    <label for="inputOwner" class="sr-only">Owner</label>
+                    <input type="text" id="inputOwner" class="form-control mb-2" placeholder="owner" name="owner" required>
+                    <label for="inputText" class="sr-only">Text</label>
+                    <textarea type="text" id="inputText" class="form-control" placeholder="add your comment..." name="text" required></textarea>
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="margin-top: -3px;">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="blog-post" style="border-top: #5a6268; margin-top: 5px">
+            <h3 class="blog-post-meta" style="border-bottom: 1px solid #e8e8e8; text-align: center;">{{ all_comments.count }} comment{{ all_comments.count | pluralize }}</h3>
+            {% for comment in all_comments %}
+                <p>{{comment.text}}</p>
+                <p class="blog-post-meta" style="color: #5a6268; margin-top: -15px;"> comment by {{ comment.owner}}</p>
+            {% endfor%}
+        </div>
+
+    </div>
+{% endblock %}

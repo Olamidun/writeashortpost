@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container mt-1" >
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group" style="border-right: 1px solid #c8cbcf">
+                <legend class="border-bottom mb-4">Update Post</legend>
+                {{t_form.as_p}}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="margin-top: -25px;">update</button>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

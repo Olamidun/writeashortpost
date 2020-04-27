@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container mt-1" >
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+                <h6 style="color: red"> Please Make sure your Login details are correct;
+                    note that Login details are case sensitive!!!</h6>
+            {% endif %}
+            <fieldset class="form-group mb-2" style="border-right: 1px solid #c8cbcf">
+                <legend class="border-bottom mb-4">Login Here</legend>
+                <label for="inputUsername" class="sr-only">Owner</label>
+                <input type="text" id="inputUsername" class="form-control mb-2" placeholder="Enter username" name="username" required>
+                <label for="inputPassword" class="sr-only">Text</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Enter password" name="password" required>
+            </fieldset>
+            <div class="form-group" style="margin-top: 25px;">
+                <button type="submit" class="btn btn-primary" style="margin-top: -25px;">Login</button>
+                <span><a class="blog-post-meta" style="text-decoration: none; margin-left: 10px; margin-bottom: 10px;" href="{% url 'password_reset'%}">Forgot Password?</a></span>
+            </div>
+        </form>
+        <p class="text-muted"> Need an account? <a class="ml-2" href="{% url 'register' %}">Create account here</a></p>
+
+    </div>
+    {% endblock %}

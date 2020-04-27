@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+    <form method="GET" action="">
+        <fieldset>
+            <label for="inputSearch" class="sr-only">Search</label>
+            <input type="text" id="inputSearch" class="form-control mb-2" placeholder="Search posts" name="q" value="{{ request.GET.q }}">
+            <button type="submit" class="btn btn-outline-primary" style="margin-bottom: 10px;">Search</button>
+        </fieldset>
+    </form>
+    {% for post in posts %}
+        <section>
+            <div class="my-3 p-3 bg-white rounded box-shadow" >
+                <img class="rounded-circle article-img" style="width: 5%;" src="{{ post.author.profile.image.url}}">
+                <h2 class="blog-post-title"><a class="ml-2" style="text-decoration: none; font-size: 22px;" href="{% url 'post-detail' pk=post.pk %}">{{post.title}}</a></h2>
+                <p style="font: -apple-system-short-caption1">{{ post.content|truncatewords:"50" }}...</p>
+                <p class="blog-post-meta" style="color: #5a6268;"> posted by <a href="{% url 'user-posts' post.author.username %}" style="text-decoration: none;">{{ post.author}}</a></p>
+                <big class="blog-post-meta" style="margin-right: 3px; margin-top: 5px">{{post.number_of_thumbs_up}} like{{ post.number_of_thumbs_up|pluralize }}</big>
+                {% if not request.user in post.user_thumbs_up.all %}
+                    <a href="{% url 'thumbs-up' pk=post.pk%}"><img src="{% static 'css/thumb-up.svg' %}" style="width: 20px; margin-top: 5px;"></a>
+                {% else %}
+                    <a href="{% url 'remove-thumbs-up' pk=post.pk%}"><img src="{% static 'css/thumb-down.svg' %}" style="width: 20px; color: #004085;"></a>
+                {% endif %}
+            </div>
+        </section>
+    {%endfor%}
+    <div style="margin:-5px 0 5px 0;">
+        {% if posts.has_other_pages %}
+                {% if posts.has_previous %}
+                    <a class="btn btn-outline-secondary" href="?page={{posts.previous_page_number}}" style="margin-right: 3px;">&laquo; Previous</a>
+                {% endif %}
+                {% for numbers in posts.paginator.page_range %}
+                    {% if posts.number == numbers %}
+                        <a class="btn btn-outline-secondary" href="?page={{numbers}}">{{numbers}}</a>
+                    {% elif numbers > posts.number|add:'-3' and numbers < posts.number|add:'3' %}
+                        <a class="btn btn-outline-info " href="?page={{numbers}} ">{{numbers}}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if posts.has_next %}
+                    <a class="btn btn-outline-secondary" href="?page={{posts.next_page_number}}" style="margin-left: 3px;"> Next &raquo;</a>
+                {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
