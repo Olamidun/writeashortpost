@@ -150,7 +150,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "kolapoolamidun@gmail.com"
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = "vdspbeysykoywvbn"
 
 CKEDITOR_CONFIGS = {
@@ -166,8 +166,8 @@ CKEDITOR_CONFIGS = {
 
 cloudinary.config(
     cloud_name='olamidun',
-    api_key='578127561264835',
-    api_secret='8Vqd4fiaX647Ta-RPpmuf2cKDMU',
+    api_key=os.environ.get('API_KEY'),
+    api_secret=os.environ.get('API_SECRET'),
 
 )
 
