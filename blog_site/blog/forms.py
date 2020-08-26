@@ -1,14 +1,15 @@
 from django import forms
-from blog.models import Post, Comment
+from .models import Post, Comment
 from cloudinary.forms import CloudinaryFileField
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class PostForm(forms.ModelForm):
-    post_image = CloudinaryFileField(
-        options={
-            'folder': 'post_pics'
-        }, required=False
-    )
+    # post_image = CloudinaryFileField(
+    #     options={
+    #         'folder': 'post_pics'
+    #     }, required=False
+    # )
     title = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control mb-2 mr-1',
@@ -16,16 +17,11 @@ class PostForm(forms.ModelForm):
 
         }
     ))
-    content = forms.CharField(widget=forms.Textarea(
-        attrs={
-            'class': 'form-control mb-2 mr-1',
-            'placeholder': 'Write an article...'
-        }
-    ))
+    content = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Post
-        fields = ('title', 'content', 'post_image')
+        fields = ('title', 'content')
 
 
 """

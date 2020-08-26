@@ -6,7 +6,8 @@
             {% csrf_token %}
             <fieldset class="form-group" style="border-right: 1px solid #c8cbcf">
                 <legend class="border-bottom mb-4">Update Post</legend>
-                {{t_form.as_p}}
+                {{form.as_p |safe}}
+                {{form.media}}
             </fieldset>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" style="margin-top: -25px;">update</button>

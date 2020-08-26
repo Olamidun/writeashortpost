@@ -91,15 +91,15 @@ def update_post(request, pk):
     posts = get_object_or_404(Post, pk=pk)
     if request.user == posts.author or request.user.is_superuser:
         if request.method == 'POST':
-            t_form = PostForm(request.POST, request.FILES, instance=posts)
-            if t_form.is_valid():
-                t_form.save()
+            form = PostForm(request.POST, request.FILES, instance=posts)
+            if form.is_valid():
+                form.save()
                 return redirect('blog-home')
         else:
-            t_form = PostForm(instance=posts)
+            form = PostForm(instance=posts)
     else:
         return HttpResponse('Permission denied')
-    return render(request, 'blog/post_update.html', {'t_form': t_form, })
+    return render(request, 'blog/post_update.html', {'form': form, })
 
 
 @login_required
