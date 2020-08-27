@@ -171,7 +171,4 @@ cloudinary.config(
 
 )
 
-SOCIAL_AUTH_FACEBOOK_KEY = '544680049787948'
-SOCIAL_AUTH_FACEBOOK_SECRET = '36edbea18a3aa002269b57aa223a5936'
-
 django_heroku.settings(locals())
